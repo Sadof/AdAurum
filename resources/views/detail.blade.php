@@ -63,9 +63,8 @@
 			<input type="submit" class="btn btn-primary" name="0">
 		</form>
 		<input type="hidden" id="company_id" value="{{ $company->id }}">
-		@if (isset($comments))
 		<section class="comment_section">
-  			@foreach($comments as $comment)
+  			@forelse ($comments as $comment)
 			<div class="card mb-1">
 				<div class="card-body">
 					<h5 class="card-title">{{ Auth::user()->name }} прокометировал {{ $column_name[$comment->column_id] }}</h5>
@@ -73,7 +72,11 @@
 					<p class="card-text">{{ $comment->comment }}</p>
 				</div>
 			</div>
-			@endforeach
+		@empty
+		<div class="no_comment">
+			<p>Комментарии отсутсвуют.</p>
+		</div>
+		@endforelse
 		</section>
 		<div class="card empty-card mt-3" style="display:none; ">
 				<div class="card-body">
@@ -82,8 +85,6 @@
 					<p class="card-text empty-text"></p>
 			</div>
 		</div>
-		@endif
-		
 		<script type="text/javascript">
 			let card = $('.empty-card')
 			let empty_title = $('.empty-title');
@@ -123,7 +124,7 @@
 						empty_date.text(data[0]);
 						empty_text.text(comment);
 						$('.comment_section').prepend(card.clone().show());	
-
+						if ($(".no_comment")) $(".no_comment").remove();
 
 					}
 					

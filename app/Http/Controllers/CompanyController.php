@@ -50,7 +50,7 @@ class CompanyController extends Controller
     }
 
     public function show($id, Request $request) {
-        $company = Company::find($id);
+        $company = Company::findOrFail($id);
         $column_name = ['Компанию', 'Название', "ИНН","Общая иформация", "Генеральный директор", "Адрес", "Телефон"];
         if (Auth::check()) {
             $comments = Comment::where('company_id', $id)->where('user_id', $request->user()->id)->orderBy('created_at', 'DESC')->get();
